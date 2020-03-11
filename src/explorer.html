@@ -1,0 +1,279 @@
+<html>
+<script language="JavaScript" src="jquery-3.3.1.min.js"></script>
+<script language="JavaScript" src="jquery.form.min.js"></script>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="72.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="114.png">
+
+</head>
+
+<body>
+<div id="template-p" style="display:none">
+
+  <form id="pwdform" action="empty" method="post" target="pwdwindow">
+    <input type="button" disabled value="MODE" onclick="poppwdwindow('pwdform');logit('MODE');">
+    <input type="button" disabled value="Next" onclick="nextstep()">
+    <input type="hidden" name="time" id="time" value="" />
+    <input type="hidden" name="system" id="system" value="" />
+    <input type="hidden" name="user" id="user" value="" />
+    <input type="hidden" name="mode" id="mode" value="" />
+    <input type="hidden" name="scheme" id="scheme" value="" />
+    <input type="hidden" name="condition" id="condition" value="" />
+    <input type="hidden" name="event" id="event" value="" />
+    <input type="hidden" name="data" id="data" value="" />
+    <input type="hidden" name="password" id="password" value="" />
+    <input type="hidden" name="reference" id="reference" value="" />
+    <input type="hidden" name="count" id="count" value="0" />
+  </form>
+</div>
+
+<div id="greeting">
+</div>
+
+<div id="logdiv">
+<hr>
+<div id="logheader" style="display:none">
+<h3>Show Activity Log:
+    <input type="button" value="Show" onclick="document.getElementById('log').style.display = 'block';" >
+    <input type="button" value="Hide" onclick="document.getElementById('log').style.display = 'none';" >
+</h3>
+</div>
+
+<div id="log" style= "display:none;pointer-events:all;background-color: lightgray;">
+<h4>Log Data:</h4>
+<hr>
+</div>
+</body>
+
+<script>
+$(document).ready(function() { 
+
+pwdform=document.getElementById("pwdform");
+lastform=pwdform;
+
+var lparm = getUrlParameter('log');
+var sparm = getUrlParameter('scheme');
+var cparm = getUrlParameter('cond');
+if (lparm == "1")
+document.getElementById('log').style.display = 'block';
+if (typeof sparm == 'undefined' || typeof cparm == 'undefined') {
+alert("No scheme chosen! Consult a guru.")
+return;
+}
+
+pwdform.scheme.value = sparm
+pwdform.condition.value = cparm
+pwdform.action = sparm + "/index.html";
+
+pwdform.user.value = "svp" + randomFixedInteger(6);
+
+greet = document.getElementById("greeting");
+greet.innerHTML = "<H2> SVP Password Tester</H2> <H3> User: " + pwdform.user.value +"</H3> <H3> Scheme: " +sparm + "; Condition: " + cparm + "</H3><HR>";
+
+csys = ["Email","Banking","Shopping"];
+
+for (x of csys) 
+mkcreate(x);
+
+newdiv = document.createElement('div');
+newdiv.innerHTML = "<HR>";
+document.body.appendChild(newdiv);
+
+esys = shuffle(csys)
+for (x of esys)
+mkenter(x);
+
+
+document.body.appendChild(document.getElementById("logdiv"));
+
+steps = $('div[id^="svp"]');
+stepn = -1;
+nextstep();
+});
+
+function mkcreate(name) {
+pwdform.mode.value="create";
+pwdform.system.value = name;
+newdiv = document.createElement('div');
+dname = "form"+"c"+name;
+newdiv.setAttribute("id", "svpc" + name);
+newdiv.setAttribute("style", "display:block;pointer-events:none;background-color: gray;");
+pf = document.getElementById('template-p').innerHTML;
+pf = pf.replace("pwdform", dname);
+pf = pf.replace("pwdform", dname);
+pf = pf.replace("pwdform", dname);
+pf = pf.replace("MODE", "Create");
+pf = pf.replace("MODE", "Create");
+
+newdiv.innerHTML = "Create Password for: <B>" + name + "</B>" + pf;
+document.body.appendChild(newdiv);
+
+}
+
+function mkenter(name) {
+pwdform.mode.value="enter";
+pwdform.system.value = name;
+pwdform.system.value = name;
+newdiv = document.createElement('div');
+dname = "form"+"e"+name;
+newdiv.setAttribute("id", "svpe" + name);
+newdiv.setAttribute("style", "display:block;pointer-events:none;background-color: gray;");
+pf = document.getElementById('template-p').innerHTML;
+pf = pf.replace("pwdform", dname);
+pf = pf.replace("pwdform", dname);
+pf = pf.replace("MODE", "Enter");
+pf = pf.replace("MODE", "Enter");
+
+newdiv.innerHTML = "Enter Password for: <B>" + name + "</B> (3 Attempts Allowed)" + pf;
+document.body.appendChild(newdiv);
+}
+
+
+function poppwdwindow(formid) {
+  f = document.getElementById(formid);
+  if (f.mode.value == "enter") {
+      cf = document.getElementById('formc'+f.system.value);
+      ef = document.getElementById('forme'+f.system.value);
+      if (cf.password.value == "") {
+          alert("No password set!");
+          return;
+      }
+      if (ef.count.value > 3) {
+          alert("Sorry, no more than 3 attempts allowed.");
+          return;
+      }
+      f.count.value = parseInt(f.count.value)+1;
+      f.password.value = cf.password.value;
+      f.reference.value = cf.reference.value;
+  }
+  lastform=f;
+  window.open('','pwdwindow','left=20,top=20,width=320,height=480,toolbar=0,location=0,resizable=1');
+  f.submit();
+}
+
+function logit(event,data="") {
+
+if (data=="") data = navigator.userAgent;
+//alert(data);
+var div = document.getElementById('log');
+
+function pad(number) {
+  if (number < 10) {
+    return '0' + number;
+  }
+    return number;
+}
+
+    Date.prototype.toString = function() {
+      return this.getUTCFullYear() +
+        '-' + pad(this.getUTCMonth() + 1) +
+        '-' + pad(this.getUTCDate()) +
+        ' ' + pad(this.getUTCHours()) +
+        ':' + pad(this.getUTCMinutes()) +
+        ':' + pad(this.getUTCSeconds()) +
+        '.' + (this.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5);
+    };
+
+var d = new Date();
+var n = d.toISOString();
+
+lastform.event.value = event;
+lastform.data.value = data;
+lastform.time.value = d.toString();
+
+newline = "<li>" + n + " " +
+lastform.user.value +  " " +
+lastform.system.value +  " " +
+lastform.scheme.value +  ";" +
+lastform.condition.value + " " +
+lastform.event.value + " " +
+lastform.data.value +  " ";
+div.innerHTML += newline;
+
+// THIS NEEDS TO CHANGE
+$("#"+lastform.id).ajaxSubmit({url: 'https://oppapp.ca/pswdSite01/logdata.php'});
+
+}
+
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+		    if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+		    }
+    }
+};
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+var randomFixedInteger = function (length) {
+    return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
+}
+
+function disform(n) {
+    steps[n].style= "display:block;pointer-events:none;background-color: lightgray;";
+    $("#" + steps[n].id + " :button").prop("disabled", true);
+}
+
+
+function enform(n) {
+   steps[stepn].style= "display:block;pointer-events:all;background-color: lightgreen;";
+    $("#" + steps[n].id + " :button").prop("disabled", false);
+    divname = steps[n].id;
+    formname =  divname.replace("svp", "form");
+		    
+    lastform=$("#" + formname)[0];
+}
+
+
+function nextstep() {
+if (stepn >= 0) {
+//alert("<"+lastform.password.value+">");
+      if (lastform.password.value == "") {
+      alert("Sorry, step not completed. Please try again.");
+      return;
+}
+      disform(stepn);
+
+}
+stepn = stepn + 1;
+if (stepn < steps.length) enform(stepn);
+else {
+alert("All done: Thanks! See Log Data.");
+document.getElementById('log').style.display = 'block';
+
+}
+}
+
+</script>
+</hmtl>

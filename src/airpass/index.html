@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<head>
+  <title>PassTiles</title>
+</head>
+<body>
+  <link rel="stylesheet" type="text/css" href="../passtiles/themes/smooth.css" />    
+  <script language="JavaScript" src="../passtiles/raphael-min.js"></script>
+  <script language="JavaScript" src="../passtiles/jquery-1.7.1.min.js"></script>
+  <script language="JavaScript" src="../passtiles/jqi.js"></script>
+  <script language="JavaScript" src="../passtiles/madlib.js"></script>
+
+  <input type="hidden" id="action" name="fname" value="0">
+  
+  <form name="control" action="" onSubmit="enterGridPwd(); return false;">
+
+    <div style="display: none"  id="digitLogin">
+      <p>To login, type the numbers in the boxes of your password pattern.</p>
+      <input type="text" name="enterGridPwdBox" size="7" maxlength="'+numClicks+'" >
+      <input type="button" value="Enter" onClick="enterGridPwd();" onKeyPress="gridKeyPressHandler(e)">
+    </div style="display: none" >
+    
+    <div style="display: none"  id="pwdShuffle">
+      <input type="button" name="pwdShuffle"  value="Shuffle Password" onClick="changePassword();updateCanvas();">
+
+      <input type="button" name="acceptPwd"  value="Choose Password" onClick="acceptPwdChoice();updateCanvas();">
+    </div style="display: none" >
+    
+    <div style="display: none"  id="pwdChoose">
+      <input type="button" name="acceptPts"  value="Accept Password" onClick="acceptPwdChoice()">
+    </div style="display: none" >
+    
+    <div style="display: none"  id="picChoose">
+      <input type="button" name="shufflePic"  value="Change picture" onClick="changePicture();updateCanvas();">
+      <input type="button" name="acceptPic" value="Choose this picture" onClick="acceptPicture();">
+    </div style="display: none" >
+
+    <div style="display: none"  id="pwdCheck">
+      <br><input type="radio" name="show" onClick="appearPassword()" checked> Show Password
+      <input type="radio" name="show" onClick="hidePassword()"> Hide Password <br>
+
+      <input type="button" value="Password memorized - Continue" onClick="acceptPassword()">
+    </div style="display: none" >
+
+    <div style="display: none"  id="imagePT_help">
+      <a href="help/create_imagepasstiles.html" target="_blank">Click here for help using this password system.</a>
+    </div style="display: none" >
+    
+    <div style="display: none"  id="blankPT_help">
+      <a href="help/create_blankpasstiles.html" target="_blank">Click here for help using this password system.</a>
+    </div style="display: none" >
+    
+    <div style="display: none"  id="objectPT_help">
+      <a href="help/create_objectpasstiles.html" target="_blank">Click here for help using this password system.</a>
+    </div style="display: none" >
+    
+    <div style="display: none"  id="gridsure_help">
+      <a href="help/create_gridsure.html" target="_blank">Click here for help using this password system.</a>
+    </div style="display: none" >
+    
+    <div style="display: none"  id="NS_ORPT_help">
+      <a href="help/create_ns_orpt.html" target="_blank">Click here for help using this password system.</a>
+    </div style="display: none" >
+    
+    <div style="display: none"  id="SB_ORPT_help">
+      <a href="help/create_sb_orpt.html" target="_blank">Click here for help using this password system.</a>
+    </div style="display: none" >
+    
+  </form>
+
+  <script language="JavaScript" src="../passtiles/passtiles.js"></script>
+</body>
+
+
+
+
+

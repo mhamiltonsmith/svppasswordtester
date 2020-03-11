@@ -1,0 +1,7 @@
+{
+    "az09-5": {
+        "listFile": "lists/az09.txt",
+        "numElements": "5",
+        "repeatElements": "yes"
+    }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+
+<head>
+  <title>TextRandom</title>
+</head>
+<body>
+  <script language="JavaScript" src="../passtiles/jquery-1.7.1.min.js"></script>
+  <script language="JavaScript" src="textrandom.js"></script>
+
+<body>
+  <div id="createform" style="display:none">
+    <form  id="createcontrol">
+      Your password is: 
+      <input type="text" name="realPassword" value="" readonly readsize=42 style="border-style:none;font-size:14pt;font-family:monospace;font-weight:bold; "><br>
+
+      Check the box to make your real password hidden or shown.
+      <input type="checkbox" name="check" checked onClick="togPassword()"><br>
+      
+      Please practice your password now:
+      <input type="password" size=6 
+	     name="pracPassword" value="" onKeyPress="keyPressHandler(event)">
+      <input type="button" value="Test" onClick="enterPassword()"><br>
+      
+      When you're finished practicing, click accept. <br>
+      <input type="button" value="Accept Password" onClick="acceptPassword()">
+    </form>
+  </div>
+  <div id="enterform" style="display:none">
+    <form id="entercontrol">
+      Password:
+      <input type="password" size=6 name="inputPassword" value="" onKeyPress="keyPressHandler(event)">
+      <input type="button" value="Done" onClick="enterPassword()"><P>
+    </form>
+  </div>
+  
+</body> </html>
+
