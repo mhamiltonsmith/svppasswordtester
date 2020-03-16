@@ -2,7 +2,7 @@
 
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <head>
-  <title>PassTiles</title>
+  <title>AirPass</title>
 </head>
 <body>
   <link rel="stylesheet" type="text/css" href="../passtiles/themes/smooth.css" />    
@@ -10,10 +10,35 @@
   <script language="JavaScript" src="../passtiles/jquery-1.7.1.min.js"></script>
   <script language="JavaScript" src="../passtiles/jqi.js"></script>
   <script language="JavaScript" src="../passtiles/madlib.js"></script>
+  <script language="JavaScript" src="https://unpkg.com/konva@4.1.6/konva.min.js"></script>
 
+  <div id="createform" style="display:none">
+    <form  id="createcontrol">
+      Your password is:
+      <input type="text" name="realPassword" value="" readonly readsize=42 style="border-style:none;font-size:14pt;font-family:monospace;font-weight:bold; "><br>
+
+      Check the box to make your real password hidden or shown.
+      <input type="checkbox" name="check" checked onClick="togPassword()"><br>
+
+      Please practice your password now:
+      <input type="password" size=6
+             name="pracPassword" value="" onKeyPress="keyPressHandler(event)">
+      <input type="button" value="Test" onClick="enterPassword()"><br>
+
+      When you're finished practicing, click accept. <br>
+      <input type="button" value="Accept Password" onClick="acceptPassword()">
+    </form>
+  </div>
+  <div id="enterform" style="display:none">
+    <form id="entercontrol">
+      Password:
+      <input type="password" size=6 name="inputPassword" value="" onKeyPress="keyPressHandler(event)">
+      <input type="button" value="Done" onClick="enterPassword()"><P>
+    </form>
+  </div>
+<!--
   <input type="hidden" id="action" name="fname" value="0">
-  
-  <form name="control" action="" onSubmit="enterGridPwd(); return false;">
+    <form name="control" action="" onSubmit="enterGridPwd(); return false;">
 
     <div style="display: none"  id="digitLogin">
       <p>To login, type the numbers in the boxes of your password pattern.</p>
@@ -66,10 +91,12 @@
     <div style="display: none"  id="SB_ORPT_help">
       <a href="help/create_sb_orpt.html" target="_blank">Click here for help using this password system.</a>
     </div style="display: none" >
-    
   </form>
+-->
+  <div id="container"></div>
 
-  <script language="JavaScript" src="../passtiles/passtiles.js"></script>
+  <script language="JavaScript" src="./map.js"></script>
+  <script language="JavaScript" src="./airpass.js"></script>
 </body>
 
 
