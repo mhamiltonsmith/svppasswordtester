@@ -14,10 +14,6 @@ app.post('/passtiles/index.html', function(req, res){
   var resolvedPath = path.resolve('./src/passtiles/index.html')
   res.sendFile(resolvedPath);
 });
-app.post('/airpass/index.html', function(req, res){
-  var resolvedPath = path.resolve('./src/airpass/index.html')
-  res.sendFile(resolvedPath);
-});
 
 app.use(express.urlencoded({extended: true}))
 
